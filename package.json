@@ -1,0 +1,23 @@
+{
+  "name": "reeds-website-new",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:base": "esbuild app.ts --bundle --outfile=out.js",
+    "build:jsx": "esbuild MyJSXImplementation.tsx --outfile=myJSXESBuildInjection.js",
+    "build:inject": "node esbuild_site.mjs",
+    "build:external": "npm run build:base -- --jsx=automatic --external:'myJSXImportSource/jsx-runtime'",
+    "build:node": "npm run build:external -- --platform=node",
+    "checkTypes": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@mdx-js/mdx": "^3.0.0",
+    "esbuild": "0.19.9",
+    "typescript": "^5.3.3"
+  }
+}
