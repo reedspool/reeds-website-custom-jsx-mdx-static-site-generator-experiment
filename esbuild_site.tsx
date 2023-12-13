@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { compile } from "@mdx-js/mdx";
 import esbuild from "esbuild";
 
-const result = await compile(await readFile("index.mdx"), {
+const result = await compile(await readFile("pages/index.mdx"), {
   jsx: true,
   elementAttributeNameCase: "html",
 });
@@ -16,7 +16,9 @@ await esbuild.build({
   entryPoints: ["index.tsx"],
   bundle: true,
   target: "esnext",
-  outfile: "tmp/out.js",
+  format: "esm",
+  platform: "node",
+  outfile: "tmp/out.mjs",
   inject: ["tmp/MyJSXImplementation.js"],
   plugins: [],
 });

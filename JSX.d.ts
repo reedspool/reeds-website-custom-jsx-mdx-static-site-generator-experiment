@@ -8,6 +8,11 @@ declare namespace JSX {
     head: any;
     body: any;
     script: any;
+    div: any;
+    span: any;
+    p: any;
+    a: any;
+    i: any;
   }
 
   interface Element {}

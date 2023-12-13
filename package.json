@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:base": "esbuild app.ts --bundle --outfile=out.js",
     "build:jsx": "esbuild MyJSXImplementation.tsx --outfile=tmp/MyJSXImplementation.js",
-    "build:filebuilder": "esbuild esbuild_site.tsx --outfile=tmp/esbuild_site.mjs",
+    "build:filebuilder": "esbuild esbuild_site.tsx --outfile=tmp/esbuild_site.mjs --format=esm",
     "build:inject": "node tmp/esbuild_site.mjs",
     "build:external": "npm run build:base -- --jsx=automatic --external:'myJSXImportSource/jsx-runtime'",
     "build:node": "npm run build:external -- --platform=node",
