@@ -30,7 +30,14 @@ export const MyJSXFactory = (
   let childrenHtml = "";
 
   if (Array.isArray(children)) {
-    childrenHtml = children.join("");
+    childrenHtml = children
+      // I think we get a deeply nested array if we have a list of JSX elements as children
+      // Like <div>Maybe text node too {" and maybe this kinda node "}<i></i><i></i></div>
+      // Testing needed
+      .flat()
+      // I'm not sure if this ever happens
+      .map((child) => (typeof child === "function" ? child() : child))
+      .join("");
   }
   return `<${type}${attributes}>${childrenHtml}</${type}>`;
 };

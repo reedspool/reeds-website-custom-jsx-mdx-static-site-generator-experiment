@@ -14,7 +14,9 @@ await writeFile(
   "build/index.html",
   (
     <CommonPage>
-      <ReTypedMDXFile components={{ Link, HashTarget, GitHubLink, Future }} />
+      <main class="cpnt-blog-article">
+        <ReTypedMDXFile components={{ Link, HashTarget, GitHubLink, Future }} />
+      </main>
     </CommonPage>
   ).toString(),
 );

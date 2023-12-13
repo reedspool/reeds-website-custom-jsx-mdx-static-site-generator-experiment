@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:base": "esbuild app.ts --bundle --outfile=out.js",
+    "build:css": "postcss css/style.css --output build/build.css",
     "build:jsx": "esbuild MyJSXImplementation.tsx --outfile=tmp/MyJSXImplementation.js",
     "build:filebuilder": "esbuild esbuild_site.tsx --outfile=tmp/esbuild_site.mjs --format=esm",
     "build:inject": "node tmp/esbuild_site.mjs",
@@ -18,9 +19,18 @@
   "license": "ISC",
   "devDependencies": {
     "@mdx-js/mdx": "^3.0.0",
+    "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
     "@types/mdx": "^2.0.10",
     "@types/node": "^20.10.4",
+    "autoprefixer": "^10.4.15",
+    "cssnano": "^6.0.1",
     "esbuild": "0.19.9",
+    "feed": "^4.2.2",
+    "postcss": "^8.4.28",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^15.1.0",
+    "postcss-nesting": "^12.0.1",
+    "tailwindcss": "^3.3.3",
     "typescript": "^5.3.3"
   }
 }

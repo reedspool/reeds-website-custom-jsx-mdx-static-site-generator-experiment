@@ -13,6 +13,15 @@ declare namespace JSX {
     p: any;
     a: any;
     i: any;
+    header: any;
+    main: any;
+    footer: any;
+
+    svg: any;
+    symbol: any;
+    g: any;
+    path: any;
+    use: any;
   }
 
   interface Element {}
