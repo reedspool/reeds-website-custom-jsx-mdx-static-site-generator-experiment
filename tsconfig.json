@@ -39,7 +39,10 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": false, // esbuild says they don't support it
     "experimentalDecorators": false, // esbuild says they don't support either value
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+
+    // Placed this just to use top-level await, not sure repercussions
+    "module": "esnext"
   },
   "include": ["./**/*.ts", "./**/*.tsx"],
   "exclude": ["node_modules/**/*"]

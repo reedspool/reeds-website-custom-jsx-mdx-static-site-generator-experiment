@@ -1,10 +1,10 @@
 // Starting types derived by guessing from looking at React documentation
 // https://react.dev/reference/react/createElement#createelement
 export const MyJSXFactory = (
-  type: string | Function,
+  type: keyof JSX.IntrinsicElements | Function,
   props: Record<string, any> | null,
   ...children: any[]
-) => {
+): string => {
   if (typeof type === "function") {
     return type({ ...props, children });
   }
@@ -27,8 +27,13 @@ export const MyJSXFactory = (
       .join("");
   }
 
-  return `<${type}${attributes}>${children}</${type}>`;
+  let childrenHtml = "";
+
+  if (Array.isArray(children)) {
+    childrenHtml = children.join("");
+  }
+  return `<${type}${attributes}>${childrenHtml}</${type}>`;
 };
 
-export const MyJSXFragmentFactory = (props: { children: any[] }) =>
+export const MyJSXFragmentFactory = (props: { children: any[] }): string =>
   props.children.join("");

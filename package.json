@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:base": "esbuild app.ts --bundle --outfile=out.js",
-    "build:jsx": "esbuild MyJSXImplementation.tsx --outfile=myJSXESBuildInjection.js",
-    "build:inject": "node esbuild_site.mjs",
+    "build:jsx": "esbuild MyJSXImplementation.tsx --outfile=tmp/MyJSXImplementation.js",
+    "build:filebuilder": "esbuild esbuild_site.tsx --outfile=tmp/esbuild_site.mjs",
+    "build:inject": "node tmp/esbuild_site.mjs",
     "build:external": "npm run build:base -- --jsx=automatic --external:'myJSXImportSource/jsx-runtime'",
     "build:node": "npm run build:external -- --platform=node",
     "checkTypes": "tsc --noEmit"
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@mdx-js/mdx": "^3.0.0",
     "@types/mdx": "^2.0.10",
+    "@types/node": "^20.10.4",
     "esbuild": "0.19.9",
     "typescript": "^5.3.3"
   }

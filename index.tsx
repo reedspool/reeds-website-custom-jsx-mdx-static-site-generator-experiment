@@ -1,7 +1,8 @@
-import MDXFile from "./MDXCompileOutput";
+import MDXFile from "./tmp/MDXCompileOutput";
+import { CommonPage } from "./CommonPage";
 
-export const HelloWorld = () => <h1>Hello World!</h1>;
-
-console.log(<HelloWorld />);
-
-console.log(<MDXFile />);
+console.log(
+  <CommonPage>
+    <MDXFile />
+  </CommonPage>,
+);
