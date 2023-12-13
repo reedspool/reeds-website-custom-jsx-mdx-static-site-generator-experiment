@@ -12,7 +12,8 @@ tl;dr: run
 npm run build:jsx && \ 
   npm run build:filebuilder && \
   npm run build:inject && \
-  node tmp/out.js;
+  echo "Compilation done, running output" && \
+  node tmp/out.mjs;
 ```
 
 Steps explained:
@@ -31,6 +32,6 @@ Compile my MDX & JSX builder script from TypeScript to JavaScript I can run with
 
 Runs the "filebuilder" MDX & JSX builder script. Injects the JSX implementation into an output runnable JavaScript file.
 
-### `node tmp/out.js`
+### `node tmp/out.mjs`
 
 Runs the output JavaScript file which produces HTML from the input JSX and MDX.
