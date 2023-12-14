@@ -7,7 +7,11 @@ const colors = ["primaryfg", "primarybg", "flashyfg", "flashybg"].reduce(
 );
 
 module.exports = {
-  content: ["./src/**/*.{html,js,ejs,jsx,ts,tsx}", "./**/*.{tsx,ts,mdx,jsx}"],
+  content: [
+    "./src/**/*.{html,js,ejs,jsx,ts,tsx}",
+    "./**/*.{tsx,ts,mdx,jsx}",
+    "!./**/node_modules/**",
+  ],
   theme: {
     extend: {
       colors,

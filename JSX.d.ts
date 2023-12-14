@@ -36,5 +36,9 @@ declare namespace JSX {
     children: {};
   }
 
+  interface HTMLAttributes<T> {
+    // Preact supports using "class" instead of "classname" - need to teach typescript
+    class?: string;
+  }
   type Children = Element | Element[] | string | string[] | null;
 }

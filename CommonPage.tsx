@@ -1,3 +1,11 @@
+export const BlogLayout = ({ children }: { children: JSX.Children }) => (
+  <main class="cpnt-blog-article">{children}</main>
+);
+
+export const EmptyLayout = ({ children }: { children: JSX.Children }) => (
+  <>{children}</>
+);
+
 export const CommonPage = ({ children }: { children: JSX.Children }) => {
   return (
     <html lang="en">

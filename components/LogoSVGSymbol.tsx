@@ -1,5 +1,5 @@
-export const LogoSVG = ({ className = "" }) => (
-  <svg class={`cpnt-logo ${className}`}>
+export const LogoSVG = ({ classes = "" }) => (
+  <svg class={`cpnt-logo ${classes}`}>
     <use href="#symLogo" x="0" y="0" />
   </svg>
 );
