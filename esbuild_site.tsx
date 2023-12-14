@@ -32,9 +32,9 @@ for (let index = 0; index < dataForPages.length; index++) {
   const tmpDir = resolve(dirname("./tmp/" + mdxSrc));
   const mdxOutputPath = `./tmp/${mdxSrc}.tsx`;
 
-  const fileBuilderTsxInputName = `${tmpDir}/fileBuilder${index}.tsx`;
-  const fileBuilderTsxOutputName = `${tmpDir}/fileBuilder${index}.mjs`;
-  const fileBuilderTsxOutputClassHackName = `${tmpDir}/fileBuilder${index}ClassHack.mjs`;
+  const uniqueName = `fileBuilder${index}For${basename(mdxSrc)}`;
+  const fileBuilderTsxInputName = `${tmpDir}/${uniqueName}.tsx`;
+  const fileBuilderTsxOutputName = `${tmpDir}/${uniqueName}.mjs`;
 
   // If the mdxSrc is from `pages/my.mdx`, then ensure there is a directory
   // `tmp/pages/`
@@ -113,10 +113,6 @@ await writeFile(
     plugins: [],
   });
 
-  console.log(`Changing all instances of "class:" to "'class':"`);
-  const contentBuffer = await readFile(fileBuilderTsxOutputName);
-
-  await writeFile(fileBuilderTsxOutputClassHackName, contentBuffer.toString());
-  console.log(`Running ${fileBuilderTsxOutputClassHackName}`);
-  await import(fileBuilderTsxOutputClassHackName);
+  console.log(`Running ${fileBuilderTsxOutputName}`);
+  await import(fileBuilderTsxOutputName);
 }

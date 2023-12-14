@@ -22,6 +22,8 @@ declare namespace JSX {
     g: any;
     path: any;
     use: any;
+    pre: any;
+    code: any;
   }
 
   interface Element {}

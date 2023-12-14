@@ -31,16 +31,40 @@ export const MyJSXFactory = (
 
   if (Array.isArray(children)) {
     childrenHtml = children
-      // I think we get a deeply nested array if we have a list of JSX elements as children
-      // Like <div>Maybe text node too {" and maybe this kinda node "}<i></i><i></i></div>
+      // I think we get a deeply nested array if we have a list of JSX elements
+      // as children like
+      // <div>
+      //     Maybe text node too
+      //     {" and maybe this kinda node "}
+      //     <i></i>
+      //     <i></i>
+      // </div>
       // Testing needed
       .flat()
-      // I'm not sure if this ever happens
-      .map((child) => (typeof child === "function" ? child() : child))
       .join("");
+
+    if (type === "code" || type === "pre") {
+      childrenHtml = escapeHtml(childrenHtml);
+    }
+  } else {
+    throw new Error(`Unexpected type of children prop: '${typeof children}'`);
   }
+
   return `<${type}${attributes}>${childrenHtml}</${type}>`;
 };
 
 export const MyJSXFragmentFactory = (props: { children: any[] }): string =>
   props.children.join("");
+
+// Stolen from NakedJSX https://github.com/NakedJSX/core
+export const escapeHtml = (text: string) => {
+  const htmlEscapeMap: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+
+  return text.replace(/[&<>"']/g, (m) => htmlEscapeMap[m] ?? "");
+};
