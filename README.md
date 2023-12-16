@@ -10,7 +10,7 @@ tl;dr: For a fresh install run,
 
 ```sh
 npm run build:clean && \
-  npm run build:jsx && \ 
+  npm run build:jsx && \
   npm run build:buildCompiler && \
   npm run build:compile && \
   npm run build:css
@@ -27,6 +27,12 @@ And the same for CSS in a separate terminal:
 
 ```sh
 npm run dev:css
+```
+
+Then in a third terminal, serve the build output directory
+
+```sh
+npm run dev:serve
 ```
 
 Steps explained:
@@ -63,3 +69,7 @@ Runs PostCSS/Tailwind CSS compilation and watches for changes and reruns.
 
 Runs `build:compile` and watches for file changes to rerun on any edit of the 
 source files.
+
+### `npm run dev:serve`
+
+Run a web server on the output of compilation

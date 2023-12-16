@@ -10,6 +10,7 @@
     "build:compile": "node tmp/esbuild_site.mjs",
     "dev:css": "npm run build:css -- --watch --verbose",
     "dev:compile": "npm run build:compile -- --watch",
+    "dev:serve": "npx serve build/",
     "build:clean": "rm -rf tmp/* && rm -rf build/*",
     "checkTypes": "tsc --noEmit"
   },
@@ -31,6 +32,7 @@
     "postcss-cli": "^10.1.0",
     "postcss-import": "^15.1.0",
     "postcss-nesting": "^12.0.1",
+    "serve": "^14.2.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.3.3"
   }
