@@ -10,6 +10,7 @@ tl;dr: For a fresh install run,
 
 ```sh
 npm run build:clean && \
+  npm run build:static && \
   npm run build:jsx && \
   npm run build:buildCompiler && \
   npm run build:compile && \
@@ -40,6 +41,10 @@ Steps explained:
 ### `npm run build:clean`
 
 Empty out the ephemeral directories, `build` and `tmp`
+
+### `npm run build:static`
+
+Copy static files from source to the build output directory.
 
 ### `npm run build:jsx` 
 
@@ -72,4 +77,4 @@ source files.
 
 ### `npm run dev:serve`
 
-Run a web server on the output of compilation
+Run a web server on the output of compilation.
