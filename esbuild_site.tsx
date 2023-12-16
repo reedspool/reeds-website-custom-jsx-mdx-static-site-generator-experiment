@@ -2,6 +2,7 @@ import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { compile } from "@mdx-js/mdx";
 import esbuild from "esbuild";
+import chokidar from "chokidar";
 
 console.log(`Running this script from CWD "${process.cwd()}"`);
 const dataForPages = [
@@ -14,7 +15,6 @@ const dataForPages = [
 
 // Collect data for all posts
 for (const inputFileName of await readdir("posts")) {
-  console.log("inputFileName", inputFileName);
   if (!inputFileName.endsWith(".mdx")) continue;
   dataForPages.push({
     mdxSrc: `./posts/${inputFileName}`,
@@ -23,16 +23,15 @@ for (const inputFileName of await readdir("posts")) {
   });
 }
 
-console.log("dataForPages", dataForPages);
+console.log("Collected data for all compilation sources:\n", dataForPages);
 
-for (let index = 0; index < dataForPages.length; index++) {
-  const data = dataForPages[index];
-  if (!data) throw new Error("malformed data");
+let compilations = 0;
+async function compilePage(data: (typeof dataForPages)[number]) {
   const { mdxSrc, output, layout } = data;
   const tmpDir = resolve(dirname("./tmp/" + mdxSrc));
   const mdxOutputPath = `./tmp/${mdxSrc}.tsx`;
 
-  const uniqueName = `fileBuilder${index}For${basename(mdxSrc)}`;
+  const uniqueName = `fileBuilderFor${basename(mdxSrc)}_${++compilations}`;
   const fileBuilderTsxInputName = `${tmpDir}/${uniqueName}.tsx`;
   const fileBuilderTsxOutputName = `${tmpDir}/${uniqueName}.mjs`;
 
@@ -116,3 +115,34 @@ await writeFile(
   console.log(`Running ${fileBuilderTsxOutputName}`);
   await import(fileBuilderTsxOutputName);
 }
+
+const allCompilations = [];
+for (let index = 0; index < dataForPages.length; index++) {
+  const data = dataForPages[index];
+  if (!data) throw new Error("malformed data");
+  allCompilations.push(compilePage(data));
+}
+
+await Promise.all(allCompilations);
+console.log("Finished compilation");
+
+if (!process.argv.includes("--watch")) {
+  process.exit(0);
+}
+
+console.log("Watching all input files, rebuilding");
+const watcher = chokidar.watch(dataForPages.map(({ mdxSrc }) => mdxSrc));
+
+const dataWithResolvedSrc = dataForPages.map((d) => ({
+  ...d,
+  resolvedMdxSrc: resolve(d.mdxSrc),
+}));
+
+watcher.on("change", (path) => {
+  const resolvedPath = resolve(path);
+  const d = dataWithResolvedSrc.find((d) => d.resolvedMdxSrc === resolvedPath);
+  if (!d)
+    throw new Error(`Caught watching a path I can't recompile: '${path}'`);
+  console.log(`Rebuilding ${d.mdxSrc}`);
+  compilePage(d);
+});
