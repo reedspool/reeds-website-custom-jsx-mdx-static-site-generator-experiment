@@ -102,7 +102,7 @@ I also tried out the NakedJSX config file with `npm run build -- --config-save`.
 
 ### Thu Aug 24 15:37:02 PDT 2023
 
-I wanted to add links between pages, but I found I was renaming pages frequently in this early stage of development. To lower the friction to name changes, I <GitHubLink extraPath="/blob/main/components/Link.jsx">made a component</GitHubLink> which would throw an error if I used an incorrect name for another post.
+I wanted to add links between pages, but I found I was renaming pages frequently in this early stage of development. To lower the friction to name changes, I <GitHubLink extraPath="/blob/main/components/Link.jsx" text="made a component" /> which would throw an error if I used an incorrect name for another post.
 
 <Future>I experimented with `ref` to collect all of the links in each post to create backlinks.</Future>
 
@@ -124,7 +124,7 @@ My development server did not automatically rebuild pages because of caching as 
 
 My idea was to write a script to generate a JavaScript file which imported all of my posts and wrote that file to disk. This was basically what the development server was already doing, except it was trying to do it intelligently at run-time. I wanted to do it on demand instead. I'd just have to re-run that script every time I added a new file, which seemed simple enough.
 
-To write <GitHubLink extraPath="/blob/main/bin/generate-post-imports.mjs">this script</GitHubLink> was as easy as copying and pasting the contents of my development server script which essentially did the same thing. I just wrote the result to a file instead of returning it from a dynamic script.
+To write <GitHubLink extraPath="/blob/main/bin/generate-post-imports.mjs" text="this script" /> was as easy as copying and pasting the contents of my development server script which essentially did the same thing. I just wrote the result to a file instead of returning it from a dynamic script.
 
 <Future>I found that the NakedJSX development server was not correctly rendering this "link" emoji `🔗`. This seemed to be a problem only with the development server because the output HTML looked correct and when I served those files with another server, the emoji looked correct.</Future>
 
@@ -247,3 +247,7 @@ I realized that my `Link` component had a similar issue: at this point, it only 
 <Future>I thought readers of my website might appreciate if my logbooks were in reverse chronological order instead of beginning-to-end. Maybe a button to reverse that order could be useful too. I thought I might be able to use CSS to reverse the visual order of each. Though for that I would probably need to convert my simple Markdown title+paragraph format for a JSX Logbook component with sub-LogbookEntry items. That way, I would be able to wrap each entry in custom HTML to target with my CSS.</Future> 
 
 I wrote a small script to create a new project file since there were a handful of rote automate-able steps.
+
+### Wed Dec 13 03:55:00 PM PST 2023
+
+<Future>I wanted to write a thought down for an exploration in the future, but it didn't match any f my exact projects. This was the second time this had happened in a short while. Outside of this website, I had used GTD systems for a long time. I was old-hat and automatic at finding the right inbox for the thought on the top of my head, much like reflexively sprinting to the toilet when you feel like you need to vomit. I wondered where and how I could use this website as an inbox. For what ideas would this be the right venue? This would be a fun thing to add, so I could go to my own website more to use it.</Future>

@@ -221,4 +221,49 @@ I considered some overall design goals of my JSX implementation as opposed to ot
 
 <Future>I added more frustrations which I had recorded across the projects on this website as I'd tried to use this website for more things.</Future>
 
-I copied MDX posts and supporting JSX from my old site and began to attempt to replicate my site.
+I copied MDX posts and supporting JSX from my old site and began to attempt to replicate my site. I had to unpack a lot of the fundamentals from NakedJSX. Luckily that was straightforward and everything coudl be reused. For example, instead of using the `Page.AppendHead()` API from NakedJSX, I just made a big JSX which represented the entire HTML document. I thought I'd have to insert [DOCTYPE](https://html.spec.whatwg.org/multipage/syntax.html#the-doctype) myself because I'd never seen JSX output a tag like `<!DOCTYPE html>`.
+
+<Future>I added a proper doctype tp my webpage</Future>
+
+I made a README with descriptions of the scripts I was using as they solidified.
+
+I ran into an issue when I tried to import one of my components from the old site that used a top-level await and the `node` dependency `fs`. In my old site, I was reading in some static data from a JSON file and using that data to drive the static compilation. That strategy conflicted with the `esbuild` options I had in place. I got an error about top-level await not working. I tried flipping the `bundle` option to `false`, since I wasn't planning on exporting this script which relied on a thing. Unfortunately, that caused the path resolution of the final MDX+JS compilation script to fail, since the imports were not processed and included in their typescript form at build time. I finally got around this issue for the meantime. The solution was to set the [`platform`](https://esbuild.github.io/api/#platform) option of `esbuild` to `node` and the `format` option to `esm`. This solved both the top-level await and the `node` dependency issues in one fell swoop. Nice! I figured this out not by reading the `esbuild` docs. That would have been the smart and easy way, but by [seeing that someone more knowledgeable than me was using those settings](https://github.com/evanw/esbuild/issues/1921#issuecomment-1014673303).
+
+At the end of the day, I had an index page generated from MDX which matched my original site! As a note, the match was visual. The HTML output was quite different since it didn't have any kruft from (my misconfiguration of) NakedJSX.
+
+
+### Wed Dec 13 10:24:26 AM PST 2023
+
+I decided to move towards the rest of the pages working next. I had an operation with many hard-coded names across several files in order to output a single file. In order to produce a bulk of pages, I'd have to change my strategy. I noted that there might be a lot of similarity between the bulk page process and the single page process. At first I thought that there might be more difference because I had "one index page" versus "many blog post pages". But I realized that I may be able to collect all those differences either manually or automatically into a glob of data, and then use that data to drive my operations. I started to try doing that by hand, manually editing my current build strategy to take a JSON object of constants, and to work on two separate pages based on that data.
+
+That all worked swimmingly and I quickly found myself with a script that would check the contents of the post directory and collect data to drive a compilation process. I ran into an issue parsing one of my MDX posts, though. Some package, `acorn-jsx`, was failing to parse `class`. I'd changed my MDX post to use `class` instead of `className` hoping that it would just work. But alas, some parser failed on it. I thought that in order for `className` to be usable, I'd have to add support in my JSX implementation. But that wasn't the case. The issue with Acorn seemed only to be when I would use `class` as a prop name and destructure it. E.g. in my MDX I had a component like `export const myButton = ({ class }) => <button class='${class}'>Click here!</button>`. In that case, this Acorn parser would fail on the first instance of `class`, and succeed on the second. So I made a rule for myself to not use `class` as a custom prop name. I chose to use `classes` instead of React's `className` so I wouldn't confuse myself into thinking there was a magic translation going on. 
+
+Next I ran into another way I was relying on NakedJSX's decisions. I had modified the core of NakedJSX to only HTML-escape `code` and `pre` elements. I forgot that I was relying on this behavior. In my new, baby JSX implementation, no HTML escaping occurred. I'd need to do that for my nicely formatted code blocks in MDX to look correct. For the time being, I quickly stole NakedJSX's escape function and implemented the way I had it previously, automatically escaping `code` and `pre` elements. (A few days later, I removed escaping `pre` elements, because it would also escape the `code` element beneath them, as they were commonly nested like that on purpose, e.g. in markdown output of code blocks).
+
+<Future>I considered a special declaration attribute/prop, like `@escape` such that `<pre @escape><span></pre>` would escape the `<` and `>` of that center `span` and look how I imagined it should.</Future>
+
+Other than some small issues, most of the pages on the site looked good! Or at least as good as they did before.
+
+### Thu Dec 14 03:05:44 PM PST 2023
+
+I began to add a watch/live-reload mode to my development environment. I figured it would be difficult because of how complex my generation scheme seemed. It was very straightforward! I just had to map the output of `chokidar` events to the data I'd already generated/gathered and redo the exact process I'd done so far.
+
+I cleaned up the README documentation for my new processes.
+
+### Fri Dec 15 05:39:05 PM PST 2023
+ 
+With so much complex functionality complete, I set out to wrap up this first phase of development by matching all features and output of my previous site.
+
+I wasn't sure what all the missing pieces were. So I made a list:
+
+1. [ ] My log game page with associated client-side JS.
+1. [ ] Click through each page and every single link on the page and look at the source and scour for breaks
+1. [ ] Script to generate a new post
+1. [ ] RSS Feed
+1. [ ] Static assets (logo svg used by RSS)
+1. [ ] favicon
+1. [ ] doctype
+1. [ ] Update Operating this website
+
+
+
