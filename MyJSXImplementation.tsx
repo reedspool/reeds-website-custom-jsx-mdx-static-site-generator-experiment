@@ -1,3 +1,21 @@
+// List from https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+const VoidElementTagNames = [
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+];
+
 // Starting types derived by guessing from looking at React documentation
 // https://react.dev/reference/react/createElement#createelement
 export const MyJSXFactory = (
@@ -22,9 +40,15 @@ export const MyJSXFactory = (
   let attributes = "";
 
   if (props !== null) {
-    attributes = Object.entries(props)
-      .map(([name, value]) => ` ${name}="${value.toString()}"`)
-      .join("");
+    attributes =
+      " " +
+      Object.entries(props)
+        .map(([name, value]) => {
+          // For boolean attributes, just the name, not `name="true"`
+          if (typeof value === "boolean" && value) return name;
+          return `${name}="${value.toString()}"`;
+        })
+        .join(" ");
   }
 
   let childrenHtml = "";
@@ -43,11 +67,21 @@ export const MyJSXFactory = (
       .flat()
       .join("");
 
-    if (type === "code" || type === "pre") {
+    if (type === "code") {
       childrenHtml = escapeHtml(childrenHtml);
+    }
+
+    if (VoidElementTagNames.includes(type) && childrenHtml.length > 0) {
+      throw new Error(
+        `Void element '${type}' cannot have children, ${childrenHtml}`,
+      );
     }
   } else {
     throw new Error(`Unexpected type of children prop: '${typeof children}'`);
+  }
+
+  if (VoidElementTagNames.includes(type)) {
+    return `<${type}${attributes}>`;
   }
 
   return `<${type}${attributes}>${childrenHtml}</${type}>`;
