@@ -11,7 +11,7 @@ tl;dr: For a fresh install run,
 ```sh
 npm run build:clean && \
   npm run build:static && \
-  npm run build:jsx && \
+  npm run build:jsxString && \
   npm run build:buildCompiler && \
   npm run build:compile && \
   npm run build:css
@@ -46,7 +46,7 @@ Empty out the ephemeral directories, `build` and `tmp`
 
 Copy static files from source to the build output directory.
 
-### `npm run build:jsx` 
+### `npm run build:jsxString`
 
 Compile JSX implementation from its source `MyJSXImplementation.tsx` to a `tmp/` JS file. When you inject this file into a JSX file (or `.tsx`), it provides a JSX implementation that outputs a big string which contains all the HTML.
 

@@ -42,8 +42,10 @@
     "useDefineForClassFields": true,
 
     // Placed this just to use top-level await, not sure repercussions
-    "module": "esnext"
+    "module": "esnext",
+
+    "allowJs": true
   },
-  "include": ["./**/*.ts", "./**/*.tsx"],
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js", "./**/*.jsx"],
   "exclude": ["node_modules/**/*"]
 }

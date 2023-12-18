@@ -16,6 +16,7 @@ declare namespace JSX {
     header: any;
     main: any;
     footer: any;
+    button: any;
 
     svg: any;
     symbol: any;
