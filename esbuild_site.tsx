@@ -11,6 +11,15 @@ const dataForPages = [
     output: "build/index.html",
     layout: "BlogLayout",
   },
+  {
+    pageJsxOrTsxSrc: "pages/log-game.tsx",
+    output: "build/log-game.html",
+    layout: "EmptyLayout",
+  },
+  {
+    clientSrc: "src/log-game-client.jsx",
+    output: "build/log-game-client.js",
+  },
 ];
 
 // Collect data for all posts

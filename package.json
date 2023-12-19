@@ -6,6 +6,7 @@
   "scripts": {
     "build:css": "postcss css/style.css --output build/build.css --verbose",
     "build:jsxString": "esbuild MyJSXStringImplementation.tsx --outfile=tmp/MyJSXStringImplementation.js",
+    "build:jsxBrowser": "esbuild MyJSXBrowserImplementation.tsx --outfile=tmp/MyJSXBrowserImplementation.js",
     "build:static": "mkdir -p build && cp -r static/* build/",
     "build:buildCompiler": "esbuild esbuild_site.tsx --outfile=tmp/esbuild_site.mjs --format=esm",
     "build:compile": "node tmp/esbuild_site.mjs",

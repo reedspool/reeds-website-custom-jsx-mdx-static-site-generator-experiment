@@ -1,30 +1,6 @@
 declare namespace JSX {
   interface IntrinsicElements {
-    h1: any;
-    html: any;
-    link: any;
-    title: any;
-    meta: any;
-    head: any;
-    body: any;
-    script: any;
-    div: any;
-    span: any;
-    p: any;
-    a: any;
-    i: any;
-    header: any;
-    main: any;
-    footer: any;
-    button: any;
-
-    svg: any;
-    symbol: any;
-    g: any;
-    path: any;
-    use: any;
-    pre: any;
-    code: any;
+    [index: HTMLElement["tagName"] | SVGElement["tagName"]]: any;
   }
 
   interface Element {}

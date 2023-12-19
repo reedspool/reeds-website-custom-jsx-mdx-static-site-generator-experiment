@@ -1,5 +1,5 @@
 // List from https://developer.mozilla.org/en-US/docs/Glossary/Void_element
-const VoidElementTagNames = [
+export const VoidElementTagNames = [
   "area",
   "base",
   "br",
@@ -87,8 +87,11 @@ export const MyJSXFactory = (
   return `<${type}${attributes}>${childrenHtml}</${type}>`;
 };
 
-export const MyJSXFragmentFactory = (props: { children: any[] }): string =>
-  props.children.join("");
+export const MyJSXFragmentFactory = ({
+  children,
+}: {
+  children: any[];
+}): string => children.join("");
 
 // Stolen from NakedJSX https://github.com/NakedJSX/core
 export const escapeHtml = (text: string) => {
