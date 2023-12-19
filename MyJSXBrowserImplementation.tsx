@@ -30,10 +30,13 @@ export const MyJSXFactory = (
   }
 
   if (Array.isArray(children)) {
-    if (VoidElementTagNames.includes(type) && children.flat().length > 0) {
+    if (
+      VoidElementTagNames.includes(type) &&
+      children.flat(Infinity).length > 0
+    ) {
       throw new Error(
         `Void element '${type}' cannot have children, ${children
-          .flat()
+          .flat(Infinity)
           .join(", ")}`,
       );
     }
@@ -48,7 +51,7 @@ export const MyJSXFactory = (
       //     <i></i>
       // </div>
       // Testing needed
-      .flat()
+      .flat(Infinity)
       .forEach((child) => {
         if (type === "code") {
           if (typeof child !== "string")
@@ -71,4 +74,4 @@ export const MyJSXFragmentFactory = ({
   children,
 }: {
   children: any[];
-}): any[] => children;
+}): any[] => children.flat(Infinity);

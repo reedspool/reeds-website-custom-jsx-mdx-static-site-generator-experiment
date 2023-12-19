@@ -64,7 +64,7 @@ export const MyJSXFactory = (
       //     <i></i>
       // </div>
       // Testing needed
-      .flat()
+      .flat(Infinity)
       .join("");
 
     if (type === "code") {
@@ -91,7 +91,7 @@ export const MyJSXFragmentFactory = ({
   children,
 }: {
   children: any[];
-}): string => children.join("");
+}): string => children.flat(Infinity).join("");
 
 // Stolen from NakedJSX https://github.com/NakedJSX/core
 export const escapeHtml = (text: string) => {
