@@ -1,4 +1,4 @@
-interface Components extends Record<string, any> {
+export interface Components extends Record<string, any> {
   Link: (...args: any[]) => JSX.Element;
 }
 export const Body = ({ components: { Link } }: { components: Components }) => (

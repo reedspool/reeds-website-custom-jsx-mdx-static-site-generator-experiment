@@ -20,6 +20,12 @@ const dataForPages = [
     clientSrc: "src/log-game-client.jsx",
     output: "build/log-game-client.js",
   },
+  {
+    // NOTE: Running this file also writes out other feeds
+    pageJsxOrTsxSrc: "pages/feed.tsx",
+    output: "build/feed.html",
+    layout: "GenericPageBody",
+  },
 ];
 
 // Collect data for all posts
