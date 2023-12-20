@@ -9,6 +9,7 @@
     "build:jsxBrowser": "esbuild MyJSXBrowserImplementation.tsx --outfile=tmp/MyJSXBrowserImplementation.js",
     "build:static": "mkdir -p build && cp -r static/* build/",
     "build:buildCompiler": "esbuild esbuild_site.tsx --outfile=tmp/esbuild_site.mjs --format=esm",
+    "dev:generate-new-post": "esbuild scripts/generate-new-post.tsx --outfile=tmp/generate-new-post.mjs --format=esm && node tmp/generate-new-post.mjs",
     "build:compile": "node tmp/esbuild_site.mjs",
     "dev:css": "npm run build:css -- --watch --verbose",
     "dev:compile": "npm run build:compile -- --watch",

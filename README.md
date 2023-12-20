@@ -1,6 +1,8 @@
 # Site Generator for Reed's Website
 
-(In the future...) Live at https://reeds.website
+Git repository for [Reed's Website](https://reeds.website)
+
+See [Topic: Operating This Website](./posts/topic-operating-this-website.mdx) for deployment operations explanation and other information.
 
 ## Usage
 
@@ -35,6 +37,12 @@ Then in a third terminal, serve the build output directory
 
 ```sh
 npm run dev:serve
+```
+
+Generating new posts has a few disparate steps. Use this to set
+
+```sh
+npm run dev:generate-new-post -- "Project: This is the title" then-a-slug-here
 ```
 
 Steps explained:
@@ -79,3 +87,7 @@ source files.
 ### `npm run dev:serve`
 
 Run a web server on the output of compilation.
+
+### `npm run dev:generate-new-post`
+
+Runs a utility script to automate some disparate steps involved in writing a new post. Create the file, make a link entry for it, etc. I forget all the things it does, and follow the prompts it gives. I use `git` to check the output of this script after it runs.
