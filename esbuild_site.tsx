@@ -1,9 +1,11 @@
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
-import { compile } from "@mdx-js/mdx";
+import { compile as compileMdx } from "@mdx-js/mdx";
+import { reporter } from "vfile-reporter";
 import esbuild from "esbuild";
 import chokidar from "chokidar";
 
+const WATCH_MODE = process.argv.includes("--watch");
 console.log(`Running this script from CWD "${process.cwd()}"`);
 const dataForPages = [
   {
@@ -58,13 +60,15 @@ async function compilePageFromMdx({
   // `tmp/pages/`
   await mkdir(tmpDir, { recursive: true });
   console.log(`Compiling MDX '${mdxSrc}' to '${mdxOutputPath}'`);
-  let promiseForMdxToTsxTranspilationComplete = compile(
+  let promiseForMdxToTsxTranspilationComplete = compileMdx(
     await readFile(mdxSrc),
     {
       jsx: true,
+      development: true,
       elementAttributeNameCase: "html",
     },
   ).then(async (result) => {
+    console.log("Writing MDX:", reporter(result));
     await writeFile(
       mdxOutputPath,
       "// @ts-nocheck\n" + result.value.toString().replace(/\/\*@jsx.*\n/, ""),
@@ -252,7 +256,7 @@ for (let index = 0; index < dataForPages.length; index++) {
 await Promise.all(allCompilations);
 console.log("Finished compilation");
 
-if (!process.argv.includes("--watch")) {
+if (!WATCH_MODE) {
   process.exit(0);
 }
 
@@ -271,11 +275,21 @@ const dataWithResolvedSrc = dataForPages.map((d) => ({
   resolvedSrc: resolve(d.mdxSrc || d.clientSrc || d.pageJsxOrTsxSrc || ""),
 }));
 
-watcher.on("change", (path) => {
+watcher.on("change", async (path) => {
   const resolvedPath = resolve(path);
   const d = dataWithResolvedSrc.find((d) => d.resolvedSrc === resolvedPath);
   if (!d)
     throw new Error(`Caught watching a path I can't recompile: '${path}'`);
   console.log(`Rebuilding ${d.mdxSrc}`);
-  dispatchCompilation(d);
+  try {
+    await dispatchCompilation(d);
+
+    console.error(`\n✔  ✔   ✔   ✔`);
+  } catch (error) {
+    console.error(
+      `Re-compilation failed for '${d.mdxSrc}'. Not exiting. Error:`,
+    );
+    console.error(error);
+    console.error(`\n❌   ❌   ❌   ❌`);
+  }
 });
